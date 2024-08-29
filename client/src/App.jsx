@@ -3,6 +3,8 @@ import Home from "./pages/home"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from "./components/navbar";
 import User from "./pages/user";
+import Footer from "./components/footer";
+
 
 export default function App() {
     return(
@@ -13,6 +15,7 @@ export default function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/user-account" element={<User/>} />
                </Routes>
+               <Footer />
             </div>
         </Router>
     )

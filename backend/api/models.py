@@ -6,7 +6,7 @@ class Personal(models.Model):
     name = models.CharField(max_length=25)
     email = models.CharField(max_length=250,null=False)
     password = models.CharField(max_length=50,null=False)
-    birthday = models.DateField
+    birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10)
 
     class Meta:

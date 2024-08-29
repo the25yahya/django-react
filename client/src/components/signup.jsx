@@ -1,8 +1,11 @@
 import { GoChevronRight } from "react-icons/go";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
+import { useStateContext } from "../context/contextProvider";
 
 function Signup(props) {
+
+    const {setAccessToken,access_token} = useStateContext();
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -38,7 +41,10 @@ function Signup(props) {
             }
 
             const data = await response.json();
-            console.log('success',data);
+            document.cookie = `access_token=${data.access_token}; path=/; http-only;`;
+            document.cookie = `refresh_token=${data.refresh_token}; path=/; http-only;`;
+            
+
             
         }catch(error){
             console.error('Error: ',error);

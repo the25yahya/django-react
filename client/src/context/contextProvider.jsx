@@ -3,10 +3,28 @@ const StateContext = createContext()
 
 
 export const ContextProvider = ({children})=>{
+
+    // tokens state
     const [ accessToken,setAccessToken ] = useState(null);
     const [ refreshToken,setRefreshToken ] = useState(null);
+
+    //function to extract cookies from document.cookie
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    //check login state
+    function checkLoginState(){
+        let token = getCookie('access_token')
+        return !!token
+    }
+
+    //user data state
+    const [ userData, setUserData ] = useState(null);
     return(
-        <StateContext.Provider value={{accessToken,refreshToken,setAccessToken,setRefreshToken}}>
+        <StateContext.Provider value={{userData, setUserData,accessToken,refreshToken,setAccessToken,setRefreshToken,getCookie,checkLoginState}}>
             {children}
         </StateContext.Provider>
     )

@@ -1,13 +1,20 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import Login from "../components/login";
 import Signup from "../components/signup";
 import { useStateContext } from "../context/contextProvider";
-
+import UserProfile from "../components/userProfile";
 
 
 function User(props) {
-    const { accessToken,refreshToken } = useStateContext()
-    
+    const { accessToken,checkLoginState,getCookie,setAccessToken } = useStateContext()
+
+
+    useEffect(() => {
+        if (checkLoginState()) {
+            setAccessToken(getCookie('access_token'));
+        }
+    }, [checkLoginState, getCookie, setAccessToken]); 
+
     const [authState,setAuthstate] = useState('login')
  
     const setSignup = () => {
@@ -16,7 +23,7 @@ function User(props) {
 
     const setLogin = () =>{
         setAuthstate('login')
-    }
+    }    
     if (accessToken == null) {
         if (authState ==='login') {
             return(
@@ -29,7 +36,7 @@ function User(props) {
         }
     }else{
         return(
-            <h1>user ui</h1>
+            <UserProfile />
         )
     }
 }
