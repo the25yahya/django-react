@@ -5,14 +5,15 @@ from .models import Personal
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.views.decorators.csrf import csrf_exempt
-
+import json
 
 @csrf_exempt
 def Signup(request):
     if request.method == 'POST':
-        name = request.post.get('username')
-        email = request.post.get('email')
-        password = request.post.get('password')  
+        data = json.loads(request.body)
+        name = data.get('name')
+        email = data.get('email')
+        password = data.get('password')  
 
         personal = Personal.objects.create(
             name = name,
@@ -21,18 +22,18 @@ def Signup(request):
         )
 
         refresh = RefreshToken.for_user(personal)
-        access_token = str(refresh.accss_token)
-        refesh_token = str(refresh)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
 
         Tokens.objects.create(
             user=personal,
             access_token=access_token,
-            refesh_token=refesh_token
+            refresh_token=refresh_token
         )
 
         return JsonResponse({
             'access_token':access_token,
-            'refresh_token':refesh_token
+            'refresh_token':refresh_token
         })
     
     return JsonResponse({"detail":"invalid method"},status=405)
