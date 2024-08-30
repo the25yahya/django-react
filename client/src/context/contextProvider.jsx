@@ -23,8 +23,19 @@ export const ContextProvider = ({children})=>{
 
     //user data state
     const [ userData, setUserData ] = useState(null);
+
+    //search sidebar state 
+    const [searchSidebar,setSearchSidebar] = useState(false);
+    const toggleSearch = ()=>{
+        setSearchSidebar(!searchSidebar)
+    }
+    //Filter search sidebar state
+    const [filterSidebar,setFilterSidebar] = useState(false);
+    const toggleFilter = ()=>{
+        setFilterSidebar(!filterSidebar)
+    }
     return(
-        <StateContext.Provider value={{userData, setUserData,accessToken,refreshToken,setAccessToken,setRefreshToken,getCookie,checkLoginState}}>
+        <StateContext.Provider value={{filterSidebar,setFilterSidebar,toggleFilter,searchSidebar,toggleSearch,userData, setUserData,accessToken,refreshToken,setAccessToken,setRefreshToken,getCookie,checkLoginState}}>
             {children}
         </StateContext.Provider>
     )

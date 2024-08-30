@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from .models import Tokens
 from django.http import JsonResponse
-from .models import Personal
+from .models import Personal,Tokens,bigSales,Products
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.core.serializers import serialize
 
 @csrf_exempt
 def Signup(request):
@@ -104,3 +104,46 @@ def getUserData(request):
     }
 
     return JsonResponse({'data': user_data}, status=200)
+
+def bigSalesProducts(request):
+    if request.method == "GET":
+        # Fetch all records
+        data = bigSales.objects.all()
+        
+        # Convert QuerySet to JSON serializable format
+        data_json = serialize('json', data)
+        
+        # Return JSON response
+        return JsonResponse(json.loads(data_json), safe=False)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def getProducts(request):
+        if request.method == "GET":
+            # Fetch all records
+            data = Products.objects.all()
+        
+            # Convert QuerySet to JSON serializable format
+            data_json = serialize('json', data)
+        
+            # Return JSON response
+            return JsonResponse(json.loads(data_json), safe=False)
+    
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def searchResults(request):
+    if request.method == "GET":
+        # Get the search query from the request parameters
+        search_query = request.GET.get('searchQuery', '')
+        print(search_query)
+
+        # Filter products based on the search query
+        data = Products.objects.filter(name__icontains=search_query)
+
+        # Convert QuerySet to JSON serializable format
+        data_json = serialize('json', data)
+
+        # Return JSON response
+        return JsonResponse(json.loads(data_json), safe=False)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

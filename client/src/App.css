@@ -1,0 +1,39 @@
+/*general css*/
+.none-input{
+  border: none;
+  outline: none;
+}
+
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+.fade-in {
+    animation: fadeIn .5s ease-in-out;
+  }
+
+  /*crop home imgs*/
+  .image-container {
+    margin: 10px;
+    height: 350px; /* Desired container height */
+    overflow: hidden; /* Hides the overflow parts of the image */
+    position: relative; /* Position the container relative to the image */
+}
+.image-container p{
+  cursor: pointer;
+  transition: .3s;
+}
+.image-container p:hover{
+  background-color: transparent;
+}
+
+.cropped-image {
+    width: 100%; /* Make the image fill the container width */
+    height: 100%; /* Make the image fill the container height */
+    object-fit: cover; /* Crops the image to fit the container while preserving aspect ratio */
+}
