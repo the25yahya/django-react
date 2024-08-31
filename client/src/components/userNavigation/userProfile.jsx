@@ -1,8 +1,8 @@
-import { useStateContext } from "../context/contextProvider";
+import { useStateContext } from "../../context/contextProvider";
 import React, { useEffect,useState } from "react";
-import { CiUser,CiLogin,CiCreditCard1,CiSettings } from "react-icons/ci";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import userImg from '../assets/user.png'
+import { json } from "react-router-dom";
+import Navigation from "./navigation";
+
 
 export default function UserProfile(props) {
     // Get the initial state of user data
@@ -31,16 +31,44 @@ export default function UserProfile(props) {
        setEditingSection((prevSection) => (prevSection === section ? null : section));
     };
 
+    //logic for updating data
+
+    const [ name,setName ] = useState('')
+    const [ email,setEmail ] = useState('')
+
+    // Function to handle input changes
+    const handleInputChange = (event) => {
+        setName(event.target.value); // Update state with the input value
+    };
+
+    const updateData = (field,value) => {
+        const data = JSON.stringify({[field]:value})
+        if (data) {
+            console.log(data);
+            fetch('http://localhost:8000/api/userData',{
+                method:'PUT',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:data
+            }).then((response)=>{
+                if (!response.ok) {
+                    throw new Error('Failed to update data')
+                }
+                return response.json()
+                
+            }).then((data)=>{
+                console.log('data updated successfully',data);
+                
+            }).catch((error)=>{
+                console.error(error)
+            })
+        }
+    }
+
     return (
         <div className="pt-44 flex items-start justify-start px-10">
-           <div className="w-1/5 flex-col items-center justify-center border border-gray-600 py-10 px-6 text-center mx-6">
-                <div className="w-full grid place-items-center"><img src={userImg} className="w-16" /></div>
-                <div className="flex items-center text-xl my-6 border-b pb-2 border-gray-500"><span className="mx-1"><CiUser/></span><p className="font-semibold">Personal Information</p></div>
-                <div className="flex items-center text-xl my-6 border-b pb-2 border-gray-500"><span className="mx-1"><CiLogin/></span><p className="font-semibold">Login information</p></div>
-                <div className="flex items-center text-xl my-6 border-b pb-2 border-gray-500"><span className="mx-1"><CiCreditCard1/></span><p className="font-semibold">Payement Methods</p></div>
-                <div className="flex items-center text-xl my-6 border-b pb-2 border-gray-500"><span className="mx-1"><IoIosNotificationsOutline/></span><p className="font-semibold">Notifications</p></div>
-                <div className="flex items-center text-xl my-6 border-b pb-2 border-gray-500"><span className="mx-1"><CiSettings/></span><p className="font-semibold">Site settings</p></div>
-           </div>
+           <Navigation />
            <div className="w-1/2">
                 <h1 className="text-3xl mb-4 font-semibold">Personal Information</h1>
                 <div className="border-b pb-4 border-black">
@@ -56,9 +84,9 @@ export default function UserProfile(props) {
                     <div className={editingSection === "name" ? "" : "hidden"}>
                         <div className="border w-full leading-none pr-6 pl-1 py-1 my-2">
                             <label htmlFor="name" className="block text-sm text-gray-600 leading-none">Enter new name</label>
-                            <input className="font-semibold leading-none border border-transparent" type="text" name="name" value={userData?.name} />
+                            <input onChange={handleInputChange} className="none-input font-semibold leading-none border border-transparent" type="text" name="name" />
                         </div>
-                        <button className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
+                        <button onClick={()=>updateData('name',name)} className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
                     </div>
                </div>
                <div className="mt-8 border-b pb-4 border-black">
@@ -74,7 +102,7 @@ export default function UserProfile(props) {
                    <div className={editingSection === "email" ? "" : "hidden"}>
                         <div className="border w-full leading-none pr-6 pl-1 py-1 my-2">
                             <label htmlFor="email" className="block text-sm text-gray-600 leading-none">Enter new name</label>
-                            <input className="font-semibold leading-none border border-transparent" type="email" name="email" value={userData?.email} />
+                            <input className="font-semibold leading-none border border-transparent" type="email" name="email"/>
                         </div>
                         <button className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
                    </div>

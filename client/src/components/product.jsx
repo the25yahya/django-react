@@ -1,16 +1,39 @@
-import { CiHeart } from "react-icons/ci";
+import { useState } from "react";
+import { FaRegHeart,FaHeart } from "react-icons/fa";
 
 export default function Product(props) {
+    const [ isInWishlist, setIsInWishlist ] = useState(false);
+
+    const handleAddToWishlist = async () => {
+        try{
+            const response = await fetch('http://localhost:8000/api/add-wishlist',{
+                method:'POST',
+                body:JSON.stringify({
+                    productId:props.id
+                })
+            });
+            if (response.ok){
+                setIsInWishlist(true);
+                alert('Item added to wishlist !')
+            }else{
+                alert('Failed to add item to wishlist , try again later')
+            }
+        }catch (error){
+            console.error(error);
+            
+        }
+    }
+
     return(
         <div className="flex-col items-start justify-center mx-4">
             <div className="relative">
-                <p className="absolute left-2 top-2 bg-white px-1 border">{props.tag}</p>
+                <p className="absolute left-2 top-2 bg-white px-1 border">{props.tag ? props.tag : null}</p>
                 <img className="w-64 cursor-pointer" src={props.img1} alt="" />
                 <p className="absolute opacity-90 bottom-1 w-full bg-stone-500 text-white font-sm">{props.type}</p>
             </div>
             <div className="flex items-center justify-between">
                 <p>{props.brand}</p>
-                <p><CiHeart /></p>
+                <p onClick={handleAddToWishlist} className="cursor-pointer">{isInWishlist ? <FaHeart/> : <FaRegHeart/>}</p>
             </div>
             <div className="flex w-full justify-start"><p className="text-lg font-semibold">{props.name}</p></div>
             <p className="flex items-center">
@@ -18,10 +41,10 @@ export default function Product(props) {
                 <span className="font-bold">$</span>
             </p>
             <div className="flex items-center">
-                <p>{props.xs}</p>
-                <p>{props.m}</p>
-                <p>{props.l}</p>
-                <p>{props.xl}</p>
+                <p className="mr-1">{props.xs ? 'xs' : null}</p>
+                <p className="mr-1">{props.m ? 'm' : null}</p>
+                <p className="mr-1">{props.l ? 'L' : null}</p>
+                <p className="mr-1">{props.xl ? 'xl' : null}</p>
             </div>
         </div>
     )

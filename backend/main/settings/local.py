@@ -22,6 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-zktu6#^1=rb+5bg@_$o-0y(h-%j803gx&s8_&6yf*m(&$o+q@*'
 
+SIMPLE_JWT = {
+    'SIGNING_KEY': 'testSecretKey123'
+}
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -55,6 +58,9 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',  # Add this line to settings.py
 ]
 CORS_ALLOW_CREDENTIALS = True
 

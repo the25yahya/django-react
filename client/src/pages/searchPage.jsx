@@ -26,6 +26,10 @@ export default function SearchPage(props) {
             type = {item.type} 
             price = {item.fields.price}
             brand = {item.fields.brand}
+            xs = {item.fields.xs}
+            l = {item.fields.l}
+            m = { item.fields.m}
+            xl = {item.fields.l}
             />
         )
     }) 
@@ -52,6 +56,8 @@ export default function SearchPage(props) {
         })
         .then((data)=>{
             setProducts(data)
+            console.log(data);
+            
         })
         .catch(
             error => console.error(error)

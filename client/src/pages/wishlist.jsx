@@ -2,8 +2,27 @@ import React from "react"
 import { CiHeart} from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { GoChevronRight } from "react-icons/go";
+import { useState,useEffect } from "react";
 
 export default function Wishlist(props) {
+    const [ wishlist,setWishlist ] = useState([])
+    useEffect(()=>{
+        fetch('http://localhost:8000/api/wishlist',{
+            method:'GET',
+            credentials:'include'
+        })
+        .then((response)=>{
+            return response.json()
+        })
+        .then((data)=>{
+            setWishlist(data)
+            console.log(data);
+            
+        })
+        .catch((error)=>{
+            console.error(error);
+        })
+    },[])
     return(
         <div className="pt-36 grid place-items-center">
             <div className="flex items-center border-b pb-2 w-full justify-center">
