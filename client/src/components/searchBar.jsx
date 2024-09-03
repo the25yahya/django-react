@@ -24,7 +24,7 @@ export default function SearchBar(params) {
     };
     return(
         <div
-         className={`absolute border-l border-gray-300 right-0 top-0 bg-white w-1/3 h-screen p-10 ${
+         className={`slide-right absolute border-l border-gray-300 right-0 top-0 bg-white w-1/3 h-screen p-10 ${
          searchSidebar ? '' : 'hidden'
         }`}
         >

@@ -5,6 +5,8 @@ import paypal from '../assets/paypal.png'
 import amex from '../assets/amex.png'
 import mastercard from '../assets/mastercard.png'
 import visa from '../assets/visa.png'
+import { Link } from 'react-router-dom'
+
 
 export default function Footer(props) {
     return(
@@ -12,7 +14,7 @@ export default function Footer(props) {
             <div>
                 <div className='flex-col items-start'>
                     <p className='w-72 text-lg mb-2'>Sign up to our newsletter, stay up to date on the latest product releases, special offers and news</p>
-                    <input className='block text-zinc-300 bg-transparent py-2 pr-20 border my-2 border-zinc-100 pl-1' type="Email" placeholder="Your Email" />
+                    <input className='block text-zinc-200 bg-transparent py-1 px-2 pr-20 border my-3 border-zinc-100 pl-1' type="Email" placeholder="Your Email" />
                     <button className='bg-zinc-500 text-zinc-300 border-transparent py-1 px-4'>Sign up</button>
                 </div>
                 <div className='mt-10 flex items center'>
@@ -24,12 +26,12 @@ export default function Footer(props) {
             </div>
             <div>
                 <div>
-                    <p className='mb-3 hover:opacity-50 transition cursor-pointer'>Shop</p>
-                    <p className='mb-3 hover:opacity-50 transition cursor-pointer'>Faq</p>
-                    <p className='mb-3 hover:opacity-50 transition cursor-pointer'>Shipping</p>
-                    <p className='mb-3 hover:opacity-50 transition cursor-pointer'>Returns</p>
-                    <p className='mb-3 hover:opacity-50 transition cursor-pointer'>Terms & Conditions</p>
-                    <p className='mb-3 hover:opacity-50 transition cursor-pointer'>Privacy Policy</p>
+                    <Link to='/products'>
+                    <p className='mb-3 text-lg hover:opacity-50 transition cursor-pointer'>Shop</p>
+                    </Link>
+                    <p className='mb-3 text-lg hover:opacity-50 transition cursor-pointer'>Faq</p>
+                    <p className='mb-3 text-lg hover:opacity-50 transition cursor-pointer'>Terms & Conditions</p>
+                    <p className='mb-3 text-lg hover:opacity-50 transition cursor-pointer'>Privacy Policy</p>
                 </div>
                 <p className='mt-10 opacity-50'>&copy; 2024 All Rights Reserved.</p>
             </div>

@@ -21,6 +21,10 @@ export default function SearchPage(props) {
             <Product
             key = {item.fields.name}
             img1 = {item.fields.img1}
+            img2 = {item.fields.img2}
+            img3 = {item.fields.img3}
+            img4 = {item.fields.img4}
+            img5 = {item.fields.img5}
             name = {item.fields.name}
             tag = {item.tag}
             type = {item.type} 

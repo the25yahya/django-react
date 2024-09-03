@@ -1,8 +1,6 @@
 import { useStateContext } from "../../context/contextProvider";
 import React, { useEffect,useState } from "react";
-import { json } from "react-router-dom";
 import Navigation from "./navigation";
-
 
 export default function UserProfile(props) {
     // Get the initial state of user data
@@ -35,37 +33,19 @@ export default function UserProfile(props) {
 
     const [ name,setName ] = useState('')
     const [ email,setEmail ] = useState('')
+    const [ gender,setGender ] = useState('')
 
     // Function to handle input changes
-    const handleInputChange = (event) => {
+    const handleInputChangeName = (event) => {
         setName(event.target.value); // Update state with the input value
     };
-
-    const updateData = (field,value) => {
-        const data = JSON.stringify({[field]:value})
-        if (data) {
-            console.log(data);
-            fetch('http://localhost:8000/api/userData',{
-                method:'PUT',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:data
-            }).then((response)=>{
-                if (!response.ok) {
-                    throw new Error('Failed to update data')
-                }
-                return response.json()
-                
-            }).then((data)=>{
-                console.log('data updated successfully',data);
-                
-            }).catch((error)=>{
-                console.error(error)
-            })
-        }
-    }
-
+    const handleInputChangeEmail = (event) => {
+        setEmail(event.target.value); // Update state with the input value
+    };
+    const handleInputChangeGender = (gender) => {
+        setGender(gender); // Update state with the input value
+    };
+    const { updateData } = useStateContext()
     return (
         <div className="pt-44 flex items-start justify-start px-10">
            <Navigation />
@@ -84,7 +64,7 @@ export default function UserProfile(props) {
                     <div className={editingSection === "name" ? "" : "hidden"}>
                         <div className="border w-full leading-none pr-6 pl-1 py-1 my-2">
                             <label htmlFor="name" className="block text-sm text-gray-600 leading-none">Enter new name</label>
-                            <input onChange={handleInputChange} className="none-input font-semibold leading-none border border-transparent" type="text" name="name" />
+                            <input onChange={handleInputChangeName} className="none-input font-semibold leading-none border border-transparent" type="text" name="name" />
                         </div>
                         <button onClick={()=>updateData('name',name)} className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
                     </div>
@@ -102,9 +82,9 @@ export default function UserProfile(props) {
                    <div className={editingSection === "email" ? "" : "hidden"}>
                         <div className="border w-full leading-none pr-6 pl-1 py-1 my-2">
                             <label htmlFor="email" className="block text-sm text-gray-600 leading-none">Enter new name</label>
-                            <input className="font-semibold leading-none border border-transparent" type="email" name="email"/>
+                            <input onChange={handleInputChangeEmail} className="font-semibold leading-none border border-transparent" type="email" name="email"/>
                         </div>
-                        <button className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
+                        <button onClick={()=>updateData('email',email)} className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
                    </div>
                </div>
                <div className="mt-8 border-b pb-4 border-black">
@@ -119,11 +99,11 @@ export default function UserProfile(props) {
                     </div>
                     <div className={editingSection === "gender" ? "" : "hidden"}>
                         <div className="flex items-center my-3">
-                            <div className="cursor-pointer px-6 py-2 text-sm text-gray-500 border border-gray-400">Male</div>
-                            <div className="cursor-pointer px-6 py-2 text-sm text-gray-500 border border-gray-400 mx-3">Female</div>
-                            <div className="cursor-pointer px-6 py-2 text-sm text-gray-500 border border-gray-400">Other</div>
+                            <div onClick={()=>handleInputChangeGender('Male')} className={`cursor-pointer px-6 py-2 text-sm text-gray-500 border border-gray-400 ${gender === "Male" ? 'bg-black text-white' : ''}`}>Male</div>
+                            <div onClick={()=>handleInputChangeGender('Female')} className={`cursor-pointer px-6 py-2 text-sm text-gray-500 border border-gray-400 ${gender === "Female" ? 'bg-black text-white' : ''}`}>Female</div>
+                            <div onClick={()=>handleInputChangeGender('Other')} className={`cursor-pointer px-6 py-2 text-sm text-gray-500 border border-gray-400 ${gender === "Other" ? 'bg-black text-white' : ''}`}>Other</div>
                         </div>
-                        <button className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
+                        <button onClick={()=>updateData('gender',gender)} className="border border-transparent px-4 py-2 bg-black text-white hover:bg-transparent hover:text-black transition">Save Changes</button>
                     </div>
                </div>
            </div>

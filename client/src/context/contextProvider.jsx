@@ -34,8 +34,34 @@ export const ContextProvider = ({children})=>{
     const toggleFilter = ()=>{
         setFilterSidebar(!filterSidebar)
     }
+
+    //update data user sections function
+    const updateData = (field,value) => {
+        const data = JSON.stringify({[field]:value})
+        if (data) {
+            fetch('http://localhost:8000/api/userData',{
+                method:'PUT',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                credentials: 'include',
+                body:data
+            }).then((response)=>{
+                if (!response.ok) {
+                    throw new Error('Failed to update data')
+                }
+                return response.json()
+                
+            }).then((data)=>{
+                setUserData(data.data);
+                
+            }).catch((error)=>{
+                console.error(error)
+            })
+        }
+    }
     return(
-        <StateContext.Provider value={{filterSidebar,setFilterSidebar,toggleFilter,searchSidebar,toggleSearch,userData, setUserData,accessToken,refreshToken,setAccessToken,setRefreshToken,getCookie,checkLoginState}}>
+        <StateContext.Provider value={{updateData,filterSidebar,setFilterSidebar,toggleFilter,searchSidebar,toggleSearch,userData, setUserData,accessToken,refreshToken,setAccessToken,setRefreshToken,getCookie,checkLoginState}}>
             {children}
         </StateContext.Provider>
     )

@@ -3,6 +3,13 @@ import { FaRegHeart,FaHeart } from "react-icons/fa";
 
 export default function Product(props) {
     const [ isInWishlist, setIsInWishlist ] = useState(false);
+    const [ img, setImg ] = useState(props.img1)
+    const changeImg = ()=>{
+        setImg(props.img2)
+    }
+    const resetImg = ()=>{
+        setImg(props.img1)
+    }
 
     const handleAddToWishlist = async () => {
         try{
@@ -25,10 +32,10 @@ export default function Product(props) {
     }
 
     return(
-        <div className="flex-col items-start justify-center mx-4">
+        <div className="flex-col items-start justify-center mx-4 mt-12">
             <div className="relative">
-                <p className="absolute left-2 top-2 bg-white px-1 border">{props.tag ? props.tag : null}</p>
-                <img className="w-64 cursor-pointer" src={props.img1} alt="" />
+                <p className={`absolute left-2 top-2 bg-white px-1 border ${props.tag ? "" : "hidden"}`}>{props.tag}</p>
+                <img onMouseEnter={changeImg} onMouseLeave={resetImg} className="product-img w-64 cursor-pointer" src={img} alt="" />
                 <p className="absolute opacity-90 bottom-1 w-full bg-stone-500 text-white font-sm">{props.type}</p>
             </div>
             <div className="flex items-center justify-between">

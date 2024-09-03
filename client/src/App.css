@@ -17,6 +17,45 @@
     animation: fadeIn .5s ease-in-out;
   }
 
+  @keyframes slideFromRight {
+    0% {
+      right: -30%; /* Starting position (outside the container) */
+    }
+    100% {
+      right: 0; /* Ending position (inside the container) */
+    }
+  }
+  .slide-right {
+    animation: slideFromRight .5s ease-out forwards;
+    position: relative; /* Make sure the div stays in place after the animation */
+    right: -100%; /* Start the div outside the left edge of its container */
+  }
+
+  .pulsate {
+    animation: pulsate 1.5s infinite; /* 1.5s duration, repeats infinitely */
+  }
+  .pulsate:hover{
+    animation: none;
+  }
+  @keyframes pulsate {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1); /* Scale up to 110% */
+      opacity: 0.7; /* Optional: reduce opacity slightly */
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+
+
+
+
   /*crop home imgs*/
   .image-container {
     margin: 10px;
@@ -36,4 +75,14 @@
     width: 100%; /* Make the image fill the container width */
     height: 100%; /* Make the image fill the container height */
     object-fit: cover; /* Crops the image to fit the container while preserving aspect ratio */
+}
+.hero-img{
+  width: 850px;
+  height: 540px;
+  object-fit: cover;
+}
+.product-img{
+  object-fit: cover;
+  width: 256px;
+  height: 334px;
 }

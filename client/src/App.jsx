@@ -8,7 +8,9 @@ import '../src/app.css'
 import Cart from "./pages/cart";
 import Wishlist from "./pages/wishlist";
 import SearchPage from "./pages/searchPage";
-
+import NewCollection from "./pages/newCollection";
+import WinterCollection from "./pages/winterCollection";
+import AllProducts from "./pages/allProducts";
 
 export default function App() {
     return(
@@ -21,6 +23,9 @@ export default function App() {
                     <Route path="/shopping-cart" element={<Cart/>} />
                     <Route path="/Wishlist" element={<Wishlist/>} />
                     <Route path="/search" element={<SearchPage/>} />
+                    <Route path="newCollection" element={<NewCollection/>} />
+                    <Route path="winterCollection" element={<WinterCollection/>} />
+                    <Route path="products" element={<AllProducts/>} />
                </Routes>
                <Footer />
             </div>

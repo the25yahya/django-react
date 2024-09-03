@@ -17,7 +17,7 @@ export default function SearchFilter(params) {
 
     return (
         <div
-            className={`z-10 shadow-sm shadow-black fixed border-l border-gray-300 right-0 -top-2 bg-white w-1/3 h-screen p-10 ${filterSidebar ? '' : 'hidden'}`}
+            className={`slide-right z-10 shadow-sm shadow-black fixed border-l border-gray-300 right-0 -top-2 bg-white w-1/3 h-screen p-10 ${filterSidebar ? '' : 'hidden'}`}
         >
             <div onClick={toggleFilter} className="absolute text-xl cursor-pointer top-5 right-5"><IoMdClose /></div>
             

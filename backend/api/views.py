@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Personal,Tokens,bigSales,Products,Cart,CartItem,Wishlist,WishlistItem
+from .models import Personal,Tokens,bigSales,Products,Cart,CartItem,Wishlist,WishlistItem,newCollection,winterCollection
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.views.decorators.csrf import csrf_exempt
@@ -85,34 +85,63 @@ def Login(request):
 
 @csrf_exempt
 def getUserData(request):
-    if request.method == 'POST' or request.method =='PUT':
+    if request.method in ['POST', 'PUT']:
+        access_token = request.COOKIES.get('access_token')
+        if not access_token:
+            return JsonResponse({'Error': 'Missing access token'}, status=401)
+
+        try:
+            token = Tokens.objects.get(access_token=access_token)
+            user = token.user
+        except Tokens.DoesNotExist:
+            return JsonResponse({'Error': 'Invalid token'}, status=401)
+
         try:
             data = json.loads(request.body.decode('utf-8'))
-            print(data)
-            return JsonResponse({'got data':data},status=200)
-        except json.JSONDecodeError as e :
-            return JsonResponse({'invalid json format'},status=400)
-    # Access the token from the cookie
-    access_token = request.COOKIES.get('access_token')
+            if 'name' in data and data['name']:
+                user.name = data['name']
+                user.save()
+            if 'email' in data and data['email']:
+                user.email = data['email']
+                user.save()
+            if 'password' in data and data['password']:
+                user.password = data['password']
+                user.save()
+            if 'gender' in data and data['gender']:
+                user.gender = data['gender']
+                user.save()
+            user_data = {
+                'id': user.id,
+                'name': user.name,
+                'email': user.email,
+                'gender': user.gender,
+                'birthday': user.birthday.strftime('%Y-%m-%d') if user.birthday else None,
+            }
+            return JsonResponse({'data': user_data}, status=200)
 
+        except json.JSONDecodeError:
+            return JsonResponse({'Error': 'Invalid JSON format'}, status=400)
+
+    # Handle GET requests or any other method
+    access_token = request.COOKIES.get('access_token')
     if not access_token:
-        return JsonResponse({'error': 'Missing token'}, status=400)
+        return JsonResponse({'Error': 'Missing token'}, status=400)
 
     try:
         token = Tokens.objects.get(access_token=access_token)
         user = token.user
     except Tokens.DoesNotExist:
-        return JsonResponse({'error': 'Invalid token'}, status=401)
-    # Serializing the user data
+        return JsonResponse({'Error': 'Invalid token'}, status=401)
+
     user_data = {
         'id': user.id,
         'name': user.name,
         'email': user.email,
-        'gender':user.gender,
+        'gender': user.gender,
         'birthday': user.birthday.strftime('%Y-%m-%d') if user.birthday else None,
     }
-
     return JsonResponse({'data': user_data}, status=200)
+
 
 def bigSalesProducts(request):
     if request.method == "GET":
@@ -127,14 +156,43 @@ def bigSalesProducts(request):
     
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+def newCollectionProducts(request):
+    if request.method == "GET":
+        # Fetch all records
+        data = newCollection.objects.all()
+        
+        # Convert QuerySet to JSON serializable format
+        data_json = serialize('json', data)
+        
+        # Return JSON response
+        return JsonResponse(json.loads(data_json), safe=False)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def winterCollectionProducts(request):
+    if request.method == "GET":
+        # Fetch all records
+        data = winterCollection.objects.all()
+        
+        # Convert QuerySet to JSON serializable format
+        data_json = serialize('json', data)
+        
+        # Return JSON response
+        return JsonResponse(json.loads(data_json), safe=False)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
 def getProducts(request):
         if request.method == "GET":
+            filter_query = request.GET.get('query', '')
+            brand_query = request.GET.get('brand','')
             # Fetch all records
-            data = Products.objects.all()
+            if brand_query:
+                data = Products.objects.filter(brand__icontains=brand_query)
+            else : data = Products.objects.all()
         
             # Convert QuerySet to JSON serializable format
             data_json = serialize('json', data)
-        
             # Return JSON response
             return JsonResponse(json.loads(data_json), safe=False)
     

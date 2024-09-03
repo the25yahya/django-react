@@ -24,11 +24,24 @@ const Navbar = () =>{
                 </div>
             </div>
             <div className="flex justify-center items-center border-b">
-                <div className="m-4 flex item-center">SHOP<span className="mt-1"><GoChevronDown/></span></div>
-                <div className="m-4">BLOG</div>
-                <div className="m-4">ABOUT</div>
-                <div className="m-4 flex item-center">BRANDS<span className="mt-1"><GoChevronDown/></span></div>
-                <div className="m-4 flex item-center">BEAUTY<span className="mt-1"><GoChevronDown/></span></div>
+                <Link to='/products'>
+                    <div className="m-4 cursor-pointer">SHOP</div>
+                </Link>
+                <Link to='/Blog'>
+                    <div className="m-4 cursor-pointer">BLOG</div>
+                </Link>
+                <Link to='/About'>
+                    <div className="m-4 cursor-pointer">ABOUT</div>
+                </Link>
+                <Link to='/products?query=brands'>
+                    <div className="m-4 cursor-pointer">BRANDS</div>
+                </Link>
+                <Link to='/Products?gender=Men'>
+                    <div className="m-4 cursor-pointer">MEN</div>
+                </Link>
+                <Link to='/Products?gender=Women'>
+                    <div className="m-4 cursor-pointer">WOMEN</div>
+                </Link>
             </div>
         </nav>
     )
