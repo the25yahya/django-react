@@ -110,12 +110,17 @@ def getUserData(request):
             if 'gender' in data and data['gender']:
                 user.gender = data['gender']
                 user.save()
+            if 'notifications' in data and data['notifications']:
+                user.notifications = data['notifications']
+                user.save()
             user_data = {
                 'id': user.id,
                 'name': user.name,
                 'email': user.email,
                 'gender': user.gender,
                 'birthday': user.birthday.strftime('%Y-%m-%d') if user.birthday else None,
+                'Country': user.Country,
+                'notifications':user.notifications,
             }
             return JsonResponse({'data': user_data}, status=200)
 
@@ -134,11 +139,13 @@ def getUserData(request):
         return JsonResponse({'Error': 'Invalid token'}, status=401)
 
     user_data = {
-        'id': user.id,
-        'name': user.name,
-        'email': user.email,
-        'gender': user.gender,
-        'birthday': user.birthday.strftime('%Y-%m-%d') if user.birthday else None,
+            'id': user.id,
+            'name': user.name,
+            'email': user.email,
+            'gender': user.gender,
+            'birthday': user.birthday.strftime('%Y-%m-%d') if user.birthday else None,
+            'Country': user.Country,
+            'notifications':user.notifications,
     }
     return JsonResponse({'data': user_data}, status=200)
 

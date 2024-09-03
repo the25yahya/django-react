@@ -23,7 +23,7 @@ export const ContextProvider = ({children})=>{
     }
 
     //user data state
-    const [ userData, setUserData ] = useState(null);
+    const [ userData, setUserData ] = useState({});
 
     //search sidebar state 
     const [searchSidebar,setSearchSidebar] = useState(false);

@@ -18,6 +18,8 @@ export default function UserProfile(props) {
         .then(response => response.json())
         .then(data => {
             setUserData(data.data); // Set user data state
+            console.log(data.data);
+            
         })
         .catch(error => {
             console.error(error);

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FaChevronDown,FaChevronUp } from "react-icons/fa";
 
 export default function Settings(params) {
-    const { updateData,userData, setUserData } = useStateContext()
+    const { updateData,userData, setUserData,apiUrl } = useStateContext()
     const [ langCountry,setLangCountry ] = useState(["USA","https://flagcdn.com/w320/us.png"]);
     const [ countries,setCountries ] = useState([])
     const [ scroll,setScroll ] = useState(false)
