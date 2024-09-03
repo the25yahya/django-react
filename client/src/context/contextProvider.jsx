@@ -3,6 +3,7 @@ const StateContext = createContext()
 
 
 export const ContextProvider = ({children})=>{
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     // tokens state
     const [ accessToken,setAccessToken ] = useState(null);
@@ -39,7 +40,7 @@ export const ContextProvider = ({children})=>{
     const updateData = (field,value) => {
         const data = JSON.stringify({[field]:value})
         if (data) {
-            fetch('http://localhost:8000/api/userData',{
+            fetch(`${apiUrl}/userData`,{
                 method:'PUT',
                 headers:{
                     'Content-Type':'application/json'
@@ -61,7 +62,7 @@ export const ContextProvider = ({children})=>{
         }
     }
     return(
-        <StateContext.Provider value={{updateData,filterSidebar,setFilterSidebar,toggleFilter,searchSidebar,toggleSearch,userData, setUserData,accessToken,refreshToken,setAccessToken,setRefreshToken,getCookie,checkLoginState}}>
+        <StateContext.Provider value={{apiUrl,updateData,filterSidebar,setFilterSidebar,toggleFilter,searchSidebar,toggleSearch,userData, setUserData,accessToken,refreshToken,setAccessToken,setRefreshToken,getCookie,checkLoginState}}>
             {children}
         </StateContext.Provider>
     )

@@ -7,11 +7,13 @@ import Product from "../components/product";
 import { useState, useEffect } from "react";
 
 export default function AllProducts() {
+    // Toggle filter function from context
+    const { toggleFilter,apiUrl } = useStateContext();
     // State for storing all products
     const [allProducts, setAllProducts] = useState([]);
     
     // Initialize URL state and fetch trigger state
-    const [url, setUrl] = useState('http://localhost:8000/api/products');
+    const [url, setUrl] = useState(`${apiUrl}/products`);
     const [fetchTrigger, setFetchTrigger] = useState(false);
     
     // Extract query parameters from the current URL
@@ -22,9 +24,9 @@ export default function AllProducts() {
     // Set the URL based on the 'brand' query parameter once at the start
     useEffect(() => {
         if (filter) {
-            setUrl(`http://localhost:8000/api/products?brand=${filter}`);
+            setUrl(`${apiUrl}/products?brand=${filter}`);
         }else {
-            setUrl('http://localhost:8000/api/products'); // Default URL
+            setUrl(`${apiUrl}/products`); // Default URL
         }
         setFetchTrigger(true); // Trigger fetch when URL is set
     }, [filter]);
@@ -65,8 +67,6 @@ export default function AllProducts() {
         />
     ));
 
-    // Toggle filter function from context
-    const { toggleFilter } = useStateContext();
     
     return (
         <div className="pt-36 fade-in">

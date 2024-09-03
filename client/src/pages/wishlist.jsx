@@ -6,8 +6,10 @@ import { useState,useEffect } from "react";
 
 export default function Wishlist(props) {
     const [ wishlist,setWishlist ] = useState([])
+        
+    const { apiUrl } = useStateContext();
     useEffect(()=>{
-        fetch('http://localhost:8000/api/wishlist',{
+        fetch(`${apiUrl}/wishlist`,{
             method:'GET',
             credentials:'include'
         })

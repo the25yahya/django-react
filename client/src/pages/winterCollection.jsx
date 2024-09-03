@@ -7,9 +7,9 @@ import Product from "../components/product";
 import { useState,useEffect } from "react";
 
 export default function WinterCollection(props) {
-    const [ winterCollection,setWinterCollection ] = useState([])
+    const [ winterCollection,setWinterCollection,apiUrl ] = useState([])
     useEffect(()=>{
-        fetch('http://localhost:8000/api/winterCollection',{
+        fetch(`${apiUrl}/winterCollection`,{
             method:'GET'
         })
         .then((response)=>{

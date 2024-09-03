@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 export default function SearchPage(props) {
     const navigate = useNavigate(); 
     //states
-    const { toggleFilter } = useStateContext()
+    const { toggleFilter,apiUrl } = useStateContext()
     const [ products,setProducts ] = useState([])
     const [ searchQuery,setSearchQuery ] = useState("")
 
@@ -50,7 +50,7 @@ export default function SearchPage(props) {
         const query = getQueryParams();
         if (query) {
           setSearchQuery(query)
-          const url = `http://localhost:8000/api/search?searchQuery=${encodeURIComponent(query)}`;
+          const url = `${apiUrl}/search?searchQuery=${encodeURIComponent(query)}`;
           // Fetch products or perform actions based on the search query here
           fetch(url,{
             method:'GET'

@@ -3,11 +3,15 @@ import { IoBagOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { GoChevronRight } from "react-icons/go";
 import { useEffect,useState } from "react";
+import { useStateContext } from "../context/contextProvider";
+
 
 export default function Cart(props) {
     const [ cart,setCart ] = useState([])
+
+    const {apiUrl } = useStateContext();
     useEffect(()=>{
-        fetch('http://localhost:8000/api/cart',{
+        fetch(`${apiUrl}/cart'`,{
             method:'GET',
             credentials:'include'
         })

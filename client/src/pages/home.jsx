@@ -8,7 +8,6 @@ import hero1img from '../assets/hero1img.jpg'
 import BigSales from "../components/bigSales";
 import { Link } from "react-router-dom";
 
-
 function Home() {
     //hero section
     const [hero,setHero] = useState('hero1')

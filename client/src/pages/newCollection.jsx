@@ -8,8 +8,9 @@ import { useState,useEffect } from "react";
 
 export default function NewCollection(props) {
     const [ newCollection,setNewCollection ] = useState([])
+    const { apiUrl } = useStateContext()
     useEffect(()=>{
-        fetch('http://localhost:8000/api/newCollection',{
+        fetch(`${apiUrl}/newCollection`,{
             method:'GET'
         })
         .then((response)=>{

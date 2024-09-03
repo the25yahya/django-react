@@ -4,14 +4,14 @@ import Navigation from "./navigation";
 
 export default function UserProfile(props) {
     // Get the initial state of user data
-    const { userData, setUserData } = useStateContext();
+    const { userData, setUserData, apiUrl } = useStateContext();
 
       // State for toggling sections
     const [editingSection, setEditingSection] = useState(null);
 
     // Fetch data when component mounts
     useEffect(() => {
-        fetch('http://localhost:8000/api/userData', {
+        fetch(`${apiUrl}/userData`, {
             method: 'GET',
             credentials: 'include'
         })
